@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.sql.SQLException;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -11,6 +13,9 @@ import javax.ws.rs.core.Response;
 
 import org.json.JSONObject;
 
+import com.dao.UserDao;
+import com.model.User;
+
 @Path("/user")
 public class UserService {
 
@@ -21,16 +26,25 @@ public class UserService {
 	public Response addUser(
 		 @FormParam("name")String name_form,
 		 @FormParam("email")String email_form,
-		 @FormParam("id")String id_form) {
+		 @FormParam("id")int id_form) {
 		
 		
 		String name=name_form;
 		String email=email_form;
-		String id = id_form;
+		int id = id_form;
 			System.out.println(name + " | " + email+ " | " + id); //change for log4j			
 		
 		//User Object generation
+		User user = new User(id,email,name);	
 		//Save User into BD
+		try {
+			UserDao.create_user(user);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			//log fatal
+		}
+		
 		//Send confirmation email
 		//Retrieve html	
 			
@@ -57,14 +71,23 @@ public class UserService {
 			 JSONObject json = new JSONObject(input_json);
 			 String name = json.getString("name");
 			 String email = json.getString("email");
-			 String id = json.getString("id");
+			 int id = json.getInt("id");
 			 System.out.println(name + " | " + email+ " | " + id); //change for log4j
 			
 			
-		}
 		
-		//User Object generation
-		//Save User into BD
+		
+		 	//User Object generation
+			User user = new User(id,email,name);	
+			//Save User into BD
+			try {
+				UserDao.create_user(user);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				//log fatal
+			}
+		}
 		//Send confirmation email
 		//Retrieve html	
 			
