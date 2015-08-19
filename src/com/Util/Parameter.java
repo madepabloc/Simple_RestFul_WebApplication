@@ -1,4 +1,4 @@
-package com.parameter;
+package com.Util;
 
 public class Parameter {
 

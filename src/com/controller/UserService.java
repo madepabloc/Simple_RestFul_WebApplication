@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 
 import org.json.JSONObject;
 
+import com.Util.Email;
 import com.dao.UserDao;
 import com.model.User;
 
@@ -39,6 +40,8 @@ public class UserService {
 		//Save User into BD
 		try {
 			UserDao.create_user(user);
+			Email e = new Email(user.getUser_email(),"Confirmation user registered","Hi "+user.getUser_name()+" , this email confirms that you have been registered in the system. /n Thanks, /n, The Administrator");
+			System.out.println("user "+user.getUser_name()+" has been registered and informed by email"); //change to log4j
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -82,6 +85,9 @@ public class UserService {
 			//Save User into BD
 			try {
 				UserDao.create_user(user);
+				UserDao.create_user(user);
+				Email e = new Email(user.getUser_email(),"Confirmation user registered","Hi "+user.getUser_name()+" , this email confirms that you have been registered in the system. \n Thanks, \n The Administrator");
+				System.out.println("user "+user.getUser_name()+" has been registered and informed by email"); //change to log4j
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
