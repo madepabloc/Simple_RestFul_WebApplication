@@ -9,6 +9,22 @@
 		<p>id: </p><input type="number" name="id"></n>
 		<input type="submit" value="Add User" />
 	</form>
+	
+	<h1>MESSAGES SEARCHING </h1>
+	<form action="http://localhost:8080/Simple_RestFul_WebApplication/apiRest/message/getAllMessages" method="GET">
+		<input type="submit" value="View All Messages" />
+	</form>
 
+
+	<h4>EXPORT ALL MESSAGES TO CSV </h4>
+	<form action="http://localhost:8080/Simple_RestFul_WebApplication/apiRest/message/AllMessages.csv" method="GET">
+		<input type="submit" value="Export CSV All Messages" />
+	</form>
+	
+<!-- 	<h4>EXPORT ALL MESSAGES TO CSV </h4> -->
+<!-- 	<form action="http://localhost:8080/Simple_RestFul_WebApplication/apiRest/message/AllMessages.csv" method="GET"> -->
+<!-- 		<input type="submit" value="Export CSV All Messages" /> -->
+<!-- 	</form> -->
+	
 </body>
 </html>
