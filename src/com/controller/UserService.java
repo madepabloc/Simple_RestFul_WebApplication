@@ -11,6 +11,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
 import com.Util.Email;
@@ -19,6 +21,11 @@ import com.model.User;
 
 @Path("/user")
 public class UserService {
+	
+	
+	private static Logger log = LogManager.getLogger(UserService.class.getName());
+	
+	
 	/**
 	 * @author Miguel Angel de Pablo
 	 * @param params form urlencoded
@@ -132,6 +139,7 @@ public class UserService {
 				UserDao.post_message(user_id, message);
 				
 			}else{
+				log.info("User with id "+user_id+" not exist in system, and post message is not possible");
 				return Response.status(204).entity("Not exists any user with id "+user_id).build();
 			}
 			
