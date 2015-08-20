@@ -33,7 +33,8 @@ public class MessageService {
 	@Path("/getAllMessages")	
 	public Response getAllMessage() throws SQLException{
 		
-		ArrayList<Message> message_list = MessageDao.getAllMessages();
+		ArrayList<Message> message_list = null;
+		message_list = MessageDao.getAllMessages();
 		String text = "";
 		int id = 0;
 		

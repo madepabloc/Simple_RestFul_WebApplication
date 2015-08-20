@@ -87,13 +87,14 @@ public class UserService {
 	 * @param JSON
 	 * To use from other client, this solution is more efficient.
 	 * For more time, this is a good solution using AJAX
+	 * @throws SQLException 
 	 * **/
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.TEXT_HTML })
 	@Path("/registerByJSON")
 	public Response addUser(
-		 String input_json) {
+		 String input_json) throws SQLException {
 		System.out.println(input_json);
 		if (input_json!=null){
 			 JSONObject json = new JSONObject(input_json);
@@ -109,15 +110,23 @@ public class UserService {
 			User user = new User(id,email,name);	
 			//Save User into BD
 			try {
-				UserDao.create_user(user);
-				//Send confirmation email
-				Email e = new Email(user.getUser_email(),"Confirmation user registered","Hi "+user.getUser_name()+" , this email confirms that you have been registered in the system. \n Thanks, \n The Administrator");
-				System.out.println("user "+user.getUser_name()+" has been registered and informed by email"); //change to log4j
+				boolean exists_user = UserDao.exists_user(user.getUser_id());
+				if (!exists_user){
+					UserDao.create_user(user);
+					Email e = new Email(user.getUser_email(),"Confirmation user registered","Hi "+user.getUser_name()+" , this email confirms that you have been registered in the system. /n Thanks, /n, The Administrator");
+					System.out.println("user "+user.getUser_name()+" has been registered and informed by email"); //change to log4j
+					
+				}else{
+					return Response.status(Response.Status.CREATED)
+							.entity("User already exists")
+							.build();
+				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				//log fatal
 			}
+			
 		}
 		//Send confirmation email
 			
