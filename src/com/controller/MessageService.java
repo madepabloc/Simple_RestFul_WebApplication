@@ -1,5 +1,9 @@
 package com.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -12,10 +16,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.csv.CSVPrinter;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import com.Util.CSVUtil;
 import com.dao.MessageDao;
 import com.model.Message;
 
@@ -84,4 +90,41 @@ public class MessageService {
 				.entity(json_array)
 				.build();
 	}
+	
+	
+	
+	@GET
+	@Produces("application/octet-stream")
+	@Path("/AllMessages.csv")	
+	public Response export_CSV_all_messages() throws SQLException, FileNotFoundException{
+		
+		ArrayList<Message> message_list = MessageDao.getAllMessages();
+		
+		CSVUtil.writeCsvFile("..\\csvFile", message_list);
+		FileInputStream fis = new FileInputStream("..\\csvFile");
+		
+		
+		return Response.status(Response.Status.CREATED)
+				.entity(fis)
+				.build();
+	}
+	
+	@GET
+	@Produces("application/octet-stream")
+	@Path("/{user_id}/AllMessages.csv")	
+	public Response export_CSV_all_messages_from_user(@PathParam("user_id")int user_id) throws SQLException, FileNotFoundException{
+		
+		ArrayList<Message> message_list = MessageDao.getMessagesByUser(user_id);
+		
+		CSVUtil.writeCsvFile("..\\csvFile", message_list);
+		FileInputStream fis = new FileInputStream("..\\csvFile");
+		
+		
+		return Response.status(Response.Status.CREATED)
+				.entity(fis)
+				.build();
+	}
+	
+	
+	
 }
