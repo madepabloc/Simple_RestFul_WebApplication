@@ -11,8 +11,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 import org.json.JSONObject;
 
 import com.Util.Email;
@@ -23,7 +23,7 @@ import com.model.User;
 public class UserService {
 	
 	
-	private static Logger log = LogManager.getLogger(UserService.class.getName());
+	private static Logger log = (Logger) LogManager.getLogger(UserService.class.getName());
 	
 	
 	/**
